@@ -51,3 +51,7 @@ button {
 h3 {
     color: #4267B2;
 }
+
+.border-red {
+    border-color: red;
+}

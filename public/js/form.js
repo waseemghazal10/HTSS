@@ -15,9 +15,14 @@ $(document).ready(function () {
             console.log(result);
           },
           error:function(result){
-            // $(".error").html("Invalid Password");
             console.log(result);
             $(".error").html(result.responseJSON.msg);
+            if(result.responseJSON.error === "email"){
+              $("#email").addClass("border-red");
+            }
+            else if(result.responseJSON.error === "password"){
+              $("#password").addClass("border-red")
+            }
           }
         }) 
       });

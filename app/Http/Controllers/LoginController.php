@@ -22,9 +22,7 @@ class LoginController extends Controller
 
     public function authenticate(Request $request)
     {
-        return response([
-            'msg' => 'The provided credentials do not match our records.'],401);
-            
+
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
@@ -33,16 +31,19 @@ class LoginController extends Controller
         $password = $request->password;
         $remember = $request->remember;
         $users = User::where('Email',$email)->first(); 
-
+        if (! $user){
+            return response([
+                'msg' => 'We could not find your email in our records.', 'error' => "email"],401);
+        }
         if($users->PassWord === $password){
             $request->session()->regenerate();
  
             // return redirect()->intended('dashboard');
             return response([],201);
         }
- 
+        
         return response([
-            'msg' => 'The provided credentials do not match our records.'],401);
+            'msg' => 'Invalid Password!', 'error' => "password"],401);
     }
 
     public function successLogin(Request $request)

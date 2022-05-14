@@ -2,7 +2,7 @@
 <script src="{{asset('js/form.js')}}"></script>
 <link rel="stylesheet" type="text/css" href="{{ asset('css/login.css') }}" />
 <div class="w-100 h-100 loginBackground d-flex m-0">
-  <div class="bg-gray-opacity h-100 ml-auto col-4 align-items-center justify-content-center d-flex p-4">
+  <div class="bg-gray-opacity h-100 ml-auto col-3 align-items-center justify-content-center d-flex p-4">
     <div class="bg-white h-fit p-5 w-100" id="loginContainer">
       <h3 class="mb-3">Iyada System</h3>
       <form action="" method="" target="_blank" id="gg" class="dd ">
