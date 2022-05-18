@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\Controller;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,3 +23,4 @@ Route::post('/authenticate', [LoginController::class, 'authenticate']);
 Route::get('/succesLogin', [LoginController::class, 'successLogin']);
 
 Route::get('/getAppointments', [AppointmentController::class, 'getAppointments']); //->middleware('auth');
+Route::get('/header', [Controller::class, 'header']);

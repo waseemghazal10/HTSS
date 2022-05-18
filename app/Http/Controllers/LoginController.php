@@ -23,6 +23,7 @@ class LoginController extends Controller
         return view('loginUser');
     }
 
+
     public function authenticate(Request $request)
     {
 
@@ -49,8 +50,10 @@ class LoginController extends Controller
                 'msg' => 'User is stopped', 'error' => "email"
             ], 401);
         }
+
         if ($user->PassWord === $password) {
             Auth::login($user, $request->get('remember'));
+            $request->session()->regenerate();
 
             // return redirect()->intended('dashboard');
             return response([], 201);
