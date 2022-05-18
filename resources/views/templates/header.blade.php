@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="h-100">
+<html dir="" class="h-100">
 
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

@@ -53,5 +53,7 @@ h3 {
 }
 
 .border-red {
-    border-color: red;
+    border-color: red !important;
+    border-width: thick;
+    transition: border-width 0.2s linear;
 }
