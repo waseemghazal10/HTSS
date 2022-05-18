@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Controller;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,3 +20,5 @@ Route::get('/', function () {
 Route::get('/loginUser', [LoginController::class, 'loginUser']);
 Route::post('/authenticate', [LoginController::class, 'authenticate']);
 Route::get('/succesLogin', [LoginController::class, 'successLogin']);
+
+Route::get('/header', [Controller::class, 'header']);

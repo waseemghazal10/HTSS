@@ -14,4 +14,9 @@ class User extends Authenticatable
 
     protected $table = "Dns_Users_tbl";
     protected $primaryKey = "IDKey";
+
+    public function clinic()
+    {
+        return $this->belongsTo(Clinic::class, 'ClinicIDKey');
+    }
 }

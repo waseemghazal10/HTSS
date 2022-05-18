@@ -11,7 +11,7 @@ $(document).ready(function () {
           dataType: "json",
           encode: true,
           success: function(result){
-            window.location= "/succesLogin";
+            window.location= "/header";
             console.log(result);
           },
           error:function(result){

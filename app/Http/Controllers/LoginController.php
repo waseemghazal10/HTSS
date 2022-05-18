@@ -20,6 +20,7 @@ class LoginController extends Controller
         return view('loginUser');
     }
 
+
     public function authenticate(Request $request)
     {
 
@@ -30,12 +31,13 @@ class LoginController extends Controller
         $email = $request->email; 
         $password = $request->password;
         $remember = $request->remember;
-        $users = User::where('Email',$email)->first(); 
+        $user = User::where('Email',$email)->first(); 
         if (! $user){
             return response([
                 'msg' => 'We could not find your email in our records.', 'error' => "email"],401);
         }
-        if($users->PassWord === $password){
+        if($user->PassWord === $password){
+            Auth::login($user);
             $request->session()->regenerate();
  
             // return redirect()->intended('dashboard');
