@@ -35,6 +35,7 @@ class LoginController extends Controller
         $password = $request->password;
         $remember = $request->remember;
         $user = User::where('Email', $email)->first();
+        error_log(json_encode($user));
         if (!($user)) {
             return response([
                 'msg' => 'We could not find your email in our records.', 'error' => "email"

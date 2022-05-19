@@ -11,4 +11,5 @@ class Patient extends Model
 
     protected $table = "Patients";
     protected $primaryKey = "IDKey";
+    protected $keyType = 'string';
 }

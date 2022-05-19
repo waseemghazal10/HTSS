@@ -18,6 +18,6 @@ class Controller extends BaseController
     public function header(Request $request)
     {
         $user = auth()->user();
-        return view('indexHeader',["user"=>$user]);
+        return view('indexHeader', ["user" => $user]);
     }
 }

@@ -12,7 +12,7 @@ $(document).ready(function () {
       dataType: "json",
       encode: true,
       success: function(result){
-        window.location= "/authenticate";
+        window.location= "/header";
         console.log(result);
       },
       error:function(result){

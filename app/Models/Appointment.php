@@ -11,6 +11,7 @@ class Appointment extends Model
 
     protected $table = "Appointments";
     protected $primaryKey = "IDKey";
+    protected $keyType = 'string';
 
     public function patient()
     {

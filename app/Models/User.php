@@ -14,6 +14,7 @@ class User extends Authenticatable
 
     protected $table = "Dns_Users_tbl";
     protected $primaryKey = "IDKey";
+    protected $keyType = 'string';
 
     public function clinic()
     {

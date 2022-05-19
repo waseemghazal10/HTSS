@@ -1,4 +1,3 @@
-@include('templates.header')
 <script src="{{asset('js/appointments.js')}}"></script>
 
 <script src="{{asset('js/datatables/jquery.dataTables.min.js')}}"></script>
@@ -7,22 +6,18 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('css/appointments.css') }}" />
 <link rel="stylesheet" type="text/css" href="{{ asset('css/datatables/dataTables.bootstrap4.min.css') }}" />
 
-<h2>Tabs</h2>
-<p>Click on the buttons inside the tabbed menu:</p>
-
 <div class="tab">
-    <button class="tablinks" onclick="openCity(event, 'London')">London</button>
-    <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
-    <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
+    <button class="tablinks" onclick="openTab(event, 'Appointments')">Appointments</button>
 </div>
 
-<div id="London" class="tabcontent">
+<div id="Appointments" class="tabcontent">
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th>Patient</th>
+                        <th>Doctor</th>
                         <th>Subject</th>
                         <th>Date</th>
                         <th>Time</th>
@@ -34,6 +29,7 @@
                 <tfoot>
                     <tr>
                         <th>Patient</th>
+                        <th>Doctor</th>
                         <th>Subject</th>
                         <th>Date</th>
                         <th>Time</th>
@@ -46,6 +42,7 @@
                     @foreach ($appointments as $appointment)
                     <tr>
                         <td>{{$appointment->patient->PatName}}</td>
+                        <td>{{$appointment->doctor->Name}}</td>
                         <td>{{$appointment->Subject}}</td>
                         <td>{{$appointment->Date}}</td>
                         <td>{{$appointment->Time}}</td>
