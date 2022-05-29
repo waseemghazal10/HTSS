@@ -18,9 +18,9 @@ use App\Http\Controllers\Controller;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/loginUser', [LoginController::class, 'loginUser']);
+Route::get('/loginUser', [LoginController::class, 'loginUser'])->name('login');
 Route::post('/authenticate', [LoginController::class, 'authenticate']);
 Route::get('/succesLogin', [LoginController::class, 'successLogin']);
 
-Route::get('/getAppointments', [AppointmentController::class, 'getAppointments']); //->middleware('auth');
-Route::get('/header', [Controller::class, 'header']);
+Route::get('/getAppointments', [AppointmentController::class, 'getAppointments'])->middleware('auth');
+Route::get('/header', [Controller::class, 'header'])->middleware('auth');
