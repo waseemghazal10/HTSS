@@ -3,12 +3,17 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('css/datatables/dataTables.bootstrap4.min.css') }}" />
 
 <div class="tab w-100 d-flex">
-    <div>
+    <div id="tabs" >
         <button class="tablinks" id="appointments-tab-button" onclick="openTab(event, 'Appointments')">Appointments</button>
         <button class="tablinks" id="calendar-tab-button" onclick="openTab(event, 'Calender')">Calender</button>
     </div>
+   
+    
     <div class="ml-auto mr-2 d-flex justify-content-center align-items-center">
-        <select class="form-control" name="doctors-selector" id="doctors-selector">
+        <div class="d-flex mr-1" >
+            <input type="date" id="start" name="trip-start" class="form-control" onchange = "showAppointments()" value = "{{$Date}}">
+        </div>
+        <select class="form-control mr-1 d-flex" name="doctors-selector" id="doctors-selector" calss="ml-2">
             @if (!$selectedDoctor)
             <option selected="true" value="">No doctor selected</option>
             @else
@@ -23,6 +28,10 @@
             @endif
             @endforeach
         </select>
+        <div class = " d-flex align-items-center justify-content-center">
+            <button class="btn btn-primary ">Add Appointments</button>
+        </div>
+        
     </div>
 </div>
 
@@ -35,9 +44,10 @@
                         <th>Patient Name</th>
                         <th>Doctor</th>
                         <th>Subject</th>
-                        <th>Date</th>
                         <th>Time</th>
-                        <th>Other Details</th>
+                        <th>Done</th>
+                        <th>Cancel</th>
+                        <th>Show</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -45,9 +55,10 @@
                         <th>Patient Name</th>
                         <th>Doctor</th>
                         <th>Subject</th>
-                        <th>Date</th>
                         <th>Time</th>
-                        <th>Other Details</th>
+                        <th>Done</th>
+                        <th>Cancel</th>
+                        <th>Show</th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -56,9 +67,22 @@
                         <td>{{$appointment->patient->PatName}}</td>
                         <td>{{$appointment->doctor->Name}}</td>
                         <td>{{$appointment->Subject}}</td>
-                        <td>{{$appointment->Date}}</td>
-                        <td>{{date("H:i",strtotime($appointment->Time))}} - {{date("H:i",strtotime($appointment->EndTime_Expected))}}</td>
-                        <td>{{$appointment->Details}} - {{$appointment->Notes}}</td>
+                        <td>{{date("H:i",strtotime($appointment->Time))}} <br> {{date("H:i",strtotime($appointment->EndTime_Expected))}}</td>
+                        <td >
+                            <div class="d-flex justify-content-center align-items-center">
+                                <button id="done"  name="done" appID= "{{$appointment->IDKey}}" class= "btn btn-success" onclick="doneStatus(event)">Done</button>
+                            </div>
+                        </td> 
+                        <td >
+                            <div class="d-flex justify-content-center align-items-center">
+                                <button id="cancel"  name="cancel" appID= "{{$appointment->IDKey}}" class= "btn btn-danger" onclick="cancelStatus(event)">Cancel</button>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <button id="show"  name="show" class= "btn btn-primary">Show</button>
+                            </div>
+                        </td> 
                     </tr>
                     @endforeach
                 </tbody>
@@ -73,46 +97,6 @@
     <div class="dayview-container">
         <div class="dayview-timestrings-container">
             <div class="dayview-timestrings">
-                <div class="dayview-timestring-container">
-                    <div class="dayview-timestring">
-                        00:00
-                    </div>
-                </div>
-                <div class="dayview-timestring-container">
-                    <div class="dayview-timestring">
-                        01:00
-                    </div>
-                </div>
-                <div class="dayview-timestring-container">
-                    <div class="dayview-timestring">
-                        02:00
-                    </div>
-                </div>
-                <div class="dayview-timestring-container">
-                    <div class="dayview-timestring">
-                        03:00
-                    </div>
-                </div>
-                <div class="dayview-timestring-container">
-                    <div class="dayview-timestring">
-                        04:00
-                    </div>
-                </div>
-                <div class="dayview-timestring-container">
-                    <div class="dayview-timestring">
-                        05:00
-                    </div>
-                </div>
-                <div class="dayview-timestring-container">
-                    <div class="dayview-timestring">
-                        06:00
-                    </div>
-                </div>
-                <div class="dayview-timestring-container">
-                    <div class="dayview-timestring">
-                        07:00
-                    </div>
-                </div>
                 <div class="dayview-timestring-container">
                     <div class="dayview-timestring">
                         08:00
@@ -175,7 +159,7 @@
                 </div>
                 <div class="dayview-timestring-container">
                     <div class="dayview-timestring">
-                        20:00
+                       20:00
                     </div>
                 </div>
                 <div class="dayview-timestring-container">
@@ -186,11 +170,6 @@
                 <div class="dayview-timestring-container">
                     <div class="dayview-timestring">
                         22:00
-                    </div>
-                </div>
-                <div class="dayview-timestring-container">
-                    <div class="dayview-timestring">
-                        23:00
                     </div>
                 </div>
             </div>
@@ -212,24 +191,14 @@
                     <div class="dayview-grid-tile"></div>
                     <div class="dayview-grid-tile"></div>
                     <div class="dayview-grid-tile"></div>
-                    <div class="dayview-grid-tile"></div>
-                    <div class="dayview-grid-tile"></div>
-                    <div class="dayview-grid-tile"></div>
-                    <div class="dayview-grid-tile"></div>
-                    <div class="dayview-grid-tile"></div>
-                    <div class="dayview-grid-tile"></div>
-                    <div class="dayview-grid-tile"></div>
-                    <div class="dayview-grid-tile"></div>
-                    <div class="dayview-grid-tile"></div>
-                    <div class="dayview-grid-tile"></div>
                 </div>
                 <div class="dayview-now-marker"></div>
                 <div class="dayview-grid-marker-start"></div>
                 <div class="dayview-gridcell-container">
                     <div class="dayview-gridcell">
                         @foreach ($appointments as $appointment)
-                        @if (date('Ymd') == date('Ymd', strtotime($appointment->Date)))
-                        <div class="dayview-cell" style="grid-row: {{intval(1 + ((date('H',strtotime($appointment->Time))) * 4) + ((date('i',strtotime($appointment->Time))) / 15))}} / {{intval(1 + ((date('H',strtotime($appointment->EndTime_Expected))) * 4) + ((date('i',strtotime($appointment->EndTime_Expected))) / 15))}};">
+                        @if ((date('Ymd') == date('Ymd', strtotime($appointment->Date))) && intval(date('H',strtotime($appointment->Time))) >= 8 &&  intval(date('H',strtotime($appointment->Time))) <= 20)
+                        <div class="dayview-cell" style="grid-row: {{intval(1 + ((date('H',strtotime($appointment->Time))) * 4) + ((date('i',strtotime($appointment->Time))) / 15)) - 32}}  / {{intval(1 + ((date('H',strtotime($appointment->EndTime_Expected))) * 4) + ((date('i',strtotime($appointment->EndTime_Expected))) / 15)) - 32}} ;">
                             <div class="dayview-cell-title">{{$appointment->doctor->Name}}</div>
                             <div class="dayview-cell-title">{{$appointment->Subject}}</div>
                             <div class="dayview-cell-time">{{date("H:i",strtotime($appointment->Time))}}-{{date("H:i",strtotime($appointment->EndTime_Expected))}}</div>
@@ -247,7 +216,6 @@
 
 </script>
 <script src="{{asset('js/appointments.js')}}"></script>
-
 <script src="{{asset('js/datatables/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('js/datatables/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{asset('js/datatables/datatables-demo.js')}}"></script>

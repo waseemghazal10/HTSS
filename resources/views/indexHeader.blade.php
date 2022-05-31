@@ -38,10 +38,6 @@
                     <i class="fas fa-fw fa fa-calendar"></i>
                     <span>Appointments</span>
                 </a>
-                <a class="nav-link collapsed" href="#">
-                    <i class="fas fa-fw fa fa-calendar"></i>
-                    <span>calendar</span>
-                </a>
             </li>
 
             <!-- Divider -->

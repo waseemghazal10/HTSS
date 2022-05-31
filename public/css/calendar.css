@@ -94,7 +94,7 @@
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-rows: repeat(96, 20px);
+    grid-template-rows: repeat(56, 20px);
     /* grid-template-columns: fit-content(100%); */
   }
   .dayview-cell {
@@ -144,4 +144,3 @@
     overflow-wrap: break-word;
     word-wrap: break-word;
   }
-  

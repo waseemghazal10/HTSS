@@ -5,7 +5,7 @@
   }
   
   /* Style the buttons inside the tab */
-  .tab button {
+  .tab > #tabs > button {
     background-color: inherit;
     float: left;
     border: none;
@@ -17,13 +17,13 @@
   }
   
   /* Change background color of buttons on hover */
-  .tab button:hover {
+  .tab > #tabs > button:hover {
     background-color: #2c54cd;
     color: white;
   }
   
   /* Create an active/current tablink class */
-  .tab button.active {
+  .tab > #tabs > button.active {
     background-color: #4e73df;
     color: white;
   }
@@ -77,3 +77,17 @@
     color: white;
     text-align: center;
   }
+  label {
+    display: block;
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+input,
+label {
+    margin: .4rem 0;
+}
+
+.ataTable_filter{
+  display: flex;
+  margin-left: auto;
+}

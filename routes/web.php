@@ -23,4 +23,6 @@ Route::post('/authenticate', [LoginController::class, 'authenticate']);
 Route::get('/succesLogin', [LoginController::class, 'successLogin']);
 
 Route::get('/getAppointments', [AppointmentController::class, 'getAppointments'])->middleware('auth');
+Route::get('/done', [AppointmentController::class, 'done'])->middleware('auth');
+Route::get('/cancel', [AppointmentController::class, 'cancel'])->middleware('auth');
 Route::get('/header', [Controller::class, 'header'])->middleware('auth');

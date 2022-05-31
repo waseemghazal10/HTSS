@@ -12,6 +12,7 @@ class Appointment extends Model
     protected $table = "Appointments";
     protected $primaryKey = "IDKey";
     protected $keyType = 'string';
+    const UPDATED_AT = 'UpDateDate';
 
     public function patient()
     {
