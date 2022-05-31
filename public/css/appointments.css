@@ -87,7 +87,6 @@ label {
     margin: .4rem 0;
 }
 
-.ataTable_filter{
-  display: flex;
-  margin-left: auto;
+#dataTable_filter{
+ float:right;
 }
