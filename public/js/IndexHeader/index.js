@@ -17,7 +17,7 @@ function showAppointments() {
         success: function(result){
             $('div#main-container').html(result.page);
             
-            $('#appointments-tab-button').click();
+            $('#appointments-tab-button').click();  
 
         },
         error:function(result){
@@ -56,7 +56,7 @@ function doneStatus(e){
         dataType: "json",
         encode: true,
         success: function(result){
-            console.log("status = 4");
+            showAppointments();
         },
         error:function(result){
         }
@@ -79,7 +79,7 @@ function cancelStatus(e){
         dataType: "json",
         encode: true,
         success: function(result){
-            console.log("status = 2");
+            showAppointments();
         },
         error:function(result){
         }

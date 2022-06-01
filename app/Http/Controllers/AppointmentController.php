@@ -33,7 +33,7 @@ class AppointmentController extends Controller
         // error_log($appID);
         $appointment = Appointment::where('IDKey',$appID)->first();
         // consol.log($appointment);
-        $appointment->Status = 4;
+        $appointment->Status = 2;
         $appointment->save();
         return response([],201);
     }
@@ -42,7 +42,7 @@ class AppointmentController extends Controller
     {
         $appID = $request->query('appID', '');
         $appointment = Appointment::find($appID);
-        $appointment->Status = 2;
+        $appointment->Status = 3;
         $appointment->save();
         return response([],201);
     }
