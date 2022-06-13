@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\AddAppointmentsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,3 +27,7 @@ Route::get('/getAppointments', [AppointmentController::class, 'getAppointments']
 Route::get('/done', [AppointmentController::class, 'done'])->middleware('auth');
 Route::get('/cancel', [AppointmentController::class, 'cancel'])->middleware('auth');
 Route::get('/header', [Controller::class, 'header'])->middleware('auth');
+
+Route::get('/addAppointments', [AppointmentController::class, 'addAppointments'])->middleware('auth');
+Route::post('/addAppointment', [AppointmentController::class, 'addAppointment'])->middleware('auth');
+Route::get('/searchAppointment', [AppointmentController::class, 'searchAppointments'])->middleware('auth');

@@ -29,7 +29,7 @@
             @endforeach
         </select>
         <div class = " d-flex align-items-center justify-content-center">
-            <button class="btn btn-primary ">Add Appointments</button>
+            <button class="btn btn-primary" onclick="addAppointmentsButton()">Add Appointments</button>
         </div>
         
     </div>

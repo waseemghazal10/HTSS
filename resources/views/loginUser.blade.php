@@ -5,7 +5,7 @@
   <div class="bg-gray-opacity h-100 ml-auto col-3 align-items-center justify-content-center d-flex p-4">
     <div class="bg-white h-fit p-5 w-100" id="loginContainer">
       <h3 class="mb-3 w-100">Iyada System</h3>
-      <form action="" method="" target="_blank" id="gg" class="dd ">
+      <form action="" method="" target="_blank" id="gg" class="dd">
         @csrf
         <div class="error mb-2 ml-2" style="color:red"></div>
         <input class="p-2 w-100 px-3" type="text" id="email" name="email" placeholder="Enter Email Address"><br><br>
@@ -22,7 +22,6 @@
       <div class="d-flex w-100 text-primary"><a href="#" class="mx-auto">Create an Account!</a></div>
     </div>
   </div>
-  <!-- <p>Click on the submit button, and the form will be submittied using the POST method.</p> -->
 </div>
 </body>
 

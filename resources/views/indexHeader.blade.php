@@ -34,10 +34,10 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#">
+                <button class="nav-link collapsed btn-link btn" onclick="showAppointments()">
                     <i class="fas fa-fw fa fa-calendar"></i>
                     <span>Appointments</span>
-                </a>
+                </buttona>
             </li>
 
             <!-- Divider -->
