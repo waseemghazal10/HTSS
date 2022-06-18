@@ -31,3 +31,5 @@ Route::get('/header', [Controller::class, 'header'])->middleware('auth');
 Route::get('/addAppointments', [AppointmentController::class, 'addAppointments'])->middleware('auth');
 Route::post('/addAppointment', [AppointmentController::class, 'addAppointment'])->middleware('auth');
 Route::get('/searchAppointment', [AppointmentController::class, 'searchAppointments'])->middleware('auth');
+Route::get('/searchAppointmentPopUp', [AppointmentController::class, 'searchAppointmentPopUp'])->middleware('auth');
+Route::get('/showcalendar', [AppointmentController::class, 'showcalendar'])->middleware('auth');

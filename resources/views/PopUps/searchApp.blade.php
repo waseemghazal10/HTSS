@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css" href="{{ asset('css/addAppointment.css') }}" />
+
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl"  role="document">
         <div class="modal-content">
@@ -7,7 +9,7 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body ">
+            <div class="modal-body">
                 
                 <div class="row w-100 d-flex align-items-center justify-content-center mb-5">
                     <div class="w-100 d-flex">
@@ -23,14 +25,19 @@
                             <label for="com" class="text-danger"> Communication Tools</label> 
                             <div class="flex-row d-flex">
                                 <input class="form-control" type="text" id="com" name="com">
-                                <select class="form-control mr-1 d-flex" name="doctors-selector" id="doctors-selector" calss="ml-2">
-                                </select>
                             </div>
                         </div>
                         <div class="col-3">
                             <label class="text-white">Country</label>
                             <select class="form-control mr-1" name="country-selector" id="country-selector">
                                 <option value="country">Not Set - Countries</option>
+                                @foreach ($countrys as $country)
+                                        @if($country -> selected)
+                                        <option selected value="{{$country->IDKey}}">{{$country->AName}}</option>
+                                        @else
+                                        <option value="{{$country->IDKey}}">{{$country->AName}}</option>
+                                        @endif
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -41,6 +48,13 @@
                         <div class="col-3">
                             <select class="form-control mr-1" name="city-selector" id="city-selector">
                                 <option value="city">Not Set - citys</option>
+                                @foreach ($citys as $city)
+                                        @if($city -> selected)
+                                        <option selected value="{{$city->IDKey}}">{{$city->AName}}</option>
+                                        @else
+                                        <option value="{{$city->IDKey}}">{{$city->AName}}</option>
+                                        @endif
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-3">
@@ -50,8 +64,8 @@
                     </div>
                 </div>
 
-                <div id="Appointments" class="tabcontent">
-                    <div class="card-body " id="table">
+                <div id="Appointments" class="tabcontent scroll">
+                    <div class="card-body p-0" id="table">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
@@ -63,14 +77,7 @@
                                         <th>City</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
+                                <tbody id="tbody" >
                                 </tbody>
                             </table>
                         </div>
@@ -80,7 +87,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Select</button>
+                <button type="button" class="btn btn-primary" onclick = "selectAppointment()">Select</button>
             </div>
         </div>
     </div>

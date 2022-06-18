@@ -1,4 +1,5 @@
 @include('Popups.searchApp')
+@include('Popups.doctorAppointments')
 <link rel="stylesheet" type="text/css" href="{{ asset('css/addAppointment.css') }}" />
 
 <div class="w-100" >
@@ -9,7 +10,7 @@
                     <label for="idNum" class="text-danger"> ID Number</label> 
                     <div class="d-flex">
                         <input class="form-control" type="number"  id="idNum" name="idNum" placeholder="Enter ID Number">
-                        <button class="ml-2 btn btn-light border border-dark" data-toggle="modal" data-target="#exampleModalCenter" ><i class="fa fa-search"></i></button>
+                        <button class="ml-2 btn btn-light border border-dark" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-search"></i></button>
                     </div>
                     
                 </div>
@@ -43,7 +44,7 @@
             <div class="d-flex align-items-center justify-content-center w-75">
                 <div class="col-6 d-flex flex-row align-items-center justify-content-center">
                     <label for="status" class="text-dark col-2 text-center p-2"> Status</label> 
-                    <select class="form-control mr-1 d-flex col-8" name="Status-selector" id="Status-selector" calss="ml-2">
+                    <select class="form-control mr-1 d-flex col-8" name="Status-selector" id="Status-selector" >
                         <option value="1">Waiting</option>
                         <option value="2">Done</option>
                         <option value="3">Canceled</option>
@@ -51,10 +52,14 @@
                 </div>
                 <div class="col-6 d-flex flex-row  w-75">
                     <label for="doctor" class="text-dark col-2 text-center p-2"> Doctor</label> 
-                    <select class="form-control mr-1 d-flex col-8" name="doctor-selector" id="doctor-selector" calss="ml-2">
-                        <option selected="true" value="">No doctor selected</option>
+                    <select class="form-control mr-1 d-flex col-8" name="doctor-selector" id="doctor-selector" >
+                        <option value="">No doctor selected</option>
                         @foreach ($doctors as $doctor)
-                            <option selected="true" value="{{$doctor->IDKey}}">{{$doctor->Name}}</option>
+                            @if($doctor -> selected)
+                            <option selected value="{{$doctor->IDKey}}">{{$doctor->Name}}</option>
+                            @else
+                            <option value="{{$doctor->IDKey}}">{{$doctor->Name}}</option>
+                            @endif
                         @endforeach
                     </select>
                     <div class="d-flex">
@@ -107,6 +112,6 @@
         <div class="row w-100 align-items-center justify-content-center mb-5">
             <button id= "save"class="btn btn-primary col-3 mr-1" onclick="addAppointment()">Save</button>
             <button id="cancel" class="btn btn-danger col-3 " onclick="showAppointments()">Cancel</button>
-            <button id="appo" class="btn btn-secondary col-3 ml-1">Appointments</button>
+            <button id="appo" class="btn btn-black col-3 ml-1" data-toggle="modal" data-target="#doctorAppointments" onclick = "showCal()">Appointments</button>
         </div>
 </div>

@@ -23,8 +23,7 @@ function showAppointments() {
         error:function(result){
             $('div#main-container').html(result.page);
         }
-      });
-      
+    });   
 }
 function getDate(){
     date = new Date();

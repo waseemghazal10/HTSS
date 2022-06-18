@@ -265,8 +265,8 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="{{ asset('js/IndexHeader/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/IndexHeader/bootstrap.bundle.min.js') }}"></script>
+    <!-- <script src="{{ asset('js/IndexHeader/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/IndexHeader/bootstrap.bundle.min.js') }}"></script>  -->
 
     <!-- Core plugin JavaScript-->
     <script src="{{ asset('js/IndexHeader/jquery.easing.min.js') }}"></script>

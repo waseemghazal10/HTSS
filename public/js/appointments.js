@@ -29,6 +29,7 @@ function addAppointmentsButton() {
       }
     });
 }
+
 function addAppointment(){
   var data = {};
   var idNum = $('#idNum').val();
@@ -61,7 +62,7 @@ function addAppointment(){
     dataType: "json",
     encode: true,
     success: function(result){
-        
+      showAppointment();
     },
     error:function(result){
 
@@ -69,9 +70,13 @@ function addAppointment(){
   });
 }
 
-function serachIdNum(){
+function search(id){
   var data = {};
-  var idNum = $('#idNum').val();
+  var idNum;
+  if(id)
+    idNum=id;
+  else  
+    idNum = $('#idNum').val();
   var patName = $('#patName').val();
   data.idNum = idNum;
   data.patName = patName;
@@ -82,30 +87,147 @@ function serachIdNum(){
     dataType: "json",
     encode: true,
     success: function(result){
+      if(result.data){
         var date = result.data.birth;
         var test = date.split(" ");
         var birthday = test[0];
-        document.getElementById("idNum").value = result.data.IdNum;
-        document.getElementById("patName").value = result.data.patName;
-        document.getElementById("birth").value = test[0];
-        // document.getElementById("patName").value = result.data.patName;
-        document.getElementById("mobile").value = result.data.mobile;
+        $('input#idNum').val(result.data.IdNum);
+        $('input#patName').val(result.data.patName);
+        $('input#birth').val(birthday);
+        $('input#city').val(result.data.city);
+        $('input#mobile').val(result.data.mobile);
+      }
+      else{
+        // var dat = result;
+        $('tbody#tbody').html(result.row);
+        $('#exampleModalCenter').modal('toggle');
+      }
     },
     error:function(result){
-        // $('div#main-container').html(result.page);
+
+    }
+  }); 
+}
+
+function popUpSearch() {
+  var data = {};
+  var idNum = $('#fileID').val();
+  var patName = $('#patientName').val();
+  var tools = $('#com').val();
+  data.idNum = idNum;
+  data.patName = patName;
+  data.tools = tools;
+  $.ajax({
+      type: "GET",
+      url: "/searchAppointmentPopUp",
+      data: data,
+      dataType: "json",
+      encode: true,
+      success: function(result){
+        $('tbody#tbody').html(result.row);
+      },
+      error:function(result){
+          
+      }
+    });
+}
+
+function selectRow(e){
+  
+  e = e || window.event;
+  var target = e.target.closest('tr');
+  var appID = target.getAttribute('id');
+
+  $('#tbody tr').each(function(i, obj) {
+    $(obj).removeClass("active");
+  });
+  $("tr#"+appID).addClass("active");
+}
+
+function selectAppointment(){
+  var idApp = $("tr.active").attr('id');
+  search(idApp);
+  $('#exampleModalCenter').modal('toggle');
+}
+
+function showCal(){
+  var data = {};
+  var doctor = $('#doctor-selector').val();
+  var timeDate = $('#stTime').val();
+  var startingTime =timeDate.split("T");
+  var date = startingTime[0];
+  data.doctorId = doctor;
+  data.date = date;
+  $.ajax({
+    type: "GET",
+    url: "/showcalendar",
+    data: data,
+    dataType: "json",
+    encode: true,
+    success: function(result){
+      $('div#doctorCalendar').html(result.calendar);
+    },
+    error:function(result){
+        
     }
   });
-  
 }
+
+function showAppointment() {
+  var data = {};
+  var doctorID = $('#doctors-selector').val();
+  var Date = $('#start').val();
+  if (doctorID) {
+      data.doctorId = doctorID;
+  }
+  if(Date) {
+      data.Date = Date;
+  }
+  $.ajax({
+      type: "GET",
+      url: "/getAppointments",
+      data: data,
+      dataType: "json",
+      encode: true,
+      success: function(result){
+          $('div#main-container').html(result.page);
+          
+          $('#appointments-tab-button').click();  
+
+      },
+      error:function(result){
+          $('div#main-container').html(result.page);
+      }
+  });   
+}
+
+$(document).on('keypress', '#fileID', function(e){
+  if (e.which == 13) {
+    popUpSearch();
+  }
+});
+
+$(document).on('keypress', '#com', function(e){
+  if (e.which == 13) {
+    popUpSearch();
+  }
+});
+
+$(document).on('keypress', '#patientName', function(e){
+  if (e.which == 13) {
+    popUpSearch();
+  }
+});
 
 $(document).on('keypress', '#idNum', function(e){
   if (e.which == 13) {
-    serachIdNum();
+    search();
   }
 });
+
 $(document).on('keypress', '#patName', function(e){
   if (e.which == 13) {
-    serachIdNum();
+    search();
   }
 });
 
@@ -124,13 +246,18 @@ $(document).on('change','#stTime',function(){
     if(eDate != sDate || (Date.parse(etime) <= Date.parse(stTime))){
       $('#stSpan').html("Invalid Time!");
       $('#save').prop('disabled', true);
+      $('#save').addClass('btn-secondary');
     } 
     else 
     { 
       $('#stSpan').html("");
       $('#etSpan').html("");
       $('#save').prop('disabled', false);
+      $('#save').removeClass('btn-secondary');
     }
+  } else {
+      $('#save').prop('disabled', true);
+      $('#save').addClass('btn-secondary');
   }
 });
 
@@ -149,12 +276,45 @@ $(document).on('change','#eTime',function(){
     if(eDate != sDate || (Date.parse(etime) <= Date.parse(stTime))){
       $('#etSpan').html("Invalid Time!");
       $('#save').prop('disabled', true);
+      $('#save').addClass('btn-secondary');
     } 
     else
     {
       $('#etSpan').html("");
       $('#stSpan').html("");
       $('#save').prop('disabled', false);
+      $('#save').removeClass('btn-secondary');
   }
+  } else {
+      $('#save').prop('disabled', true);
+      $('#save').addClass('btn-secondary');
   }
 });
+
+$(document).on('change','#doctor-selector',function(){
+var d = $('#doctor-selector').val();
+var t = $('#stTime').val();
+if( d === "" || t === ""){
+  $('#appo').prop('disabled', true);
+  $('#appo').addClass('btn-secondary');
+}
+else 
+{ 
+  $('#appo').prop('disabled', false);
+  $('#appo').removeClass('btn-secondary');
+}
+});
+
+$(document).on('change','#stTime',function(){
+  var d = $('#doctor-selector').val();
+  var t = $('#stTime').val();
+  if( d === "" || t === ""){
+    $('#appo').prop('disabled', true);
+    $('#appo').addClass('btn-secondary');
+  }
+  else 
+  { 
+    $('#appo').prop('disabled', false);
+    $('#appo').removeClass('btn-secondary');
+  }
+  });
