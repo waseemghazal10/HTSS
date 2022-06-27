@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\LookUpsController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\AddAppointmentsController;
 /*
@@ -32,4 +33,8 @@ Route::get('/addAppointments', [AppointmentController::class, 'addAppointments']
 Route::post('/addAppointment', [AppointmentController::class, 'addAppointment'])->middleware('auth');
 Route::get('/searchAppointment', [AppointmentController::class, 'searchAppointments'])->middleware('auth');
 Route::get('/searchAppointmentPopUp', [AppointmentController::class, 'searchAppointmentPopUp'])->middleware('auth');
-Route::get('/showcalendar', [AppointmentController::class, 'showcalendar'])->middleware('auth');
+Route::get('/showDoctorAppointments', [AppointmentController::class, 'showDoctorAppointments'])->middleware('auth');
+
+Route::get('/checkStatus', [AppointmentController::class, 'checkStatus'])->middleware('auth');
+Route::get('/cancelStatus', [AppointmentController::class, 'cancelStatus'])->middleware('auth');
+Route::get('/getCitys', [LookUpsController::class, 'getCitys'])->middleware('auth');

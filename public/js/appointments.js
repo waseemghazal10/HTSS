@@ -113,9 +113,15 @@ function popUpSearch() {
   var data = {};
   var idNum = $('#fileID').val();
   var patName = $('#patientName').val();
+  var countryId = $('#country-selector').val();
+  var cityId = $('#city-selector').val();
   var tools = $('#com').val();
   data.idNum = idNum;
   data.patName = patName;
+  if(countryId)
+    data.countryId = countryId;
+  if(cityId)  
+    data.cityId = cityId;
   data.tools = tools;
   $.ajax({
       type: "GET",
@@ -150,7 +156,7 @@ function selectAppointment(){
   $('#exampleModalCenter').modal('toggle');
 }
 
-function showCal(){
+function showDoctorAppointments(){
   var data = {};
   var doctor = $('#doctor-selector').val();
   var timeDate = $('#stTime').val();
@@ -160,12 +166,12 @@ function showCal(){
   data.date = date;
   $.ajax({
     type: "GET",
-    url: "/showcalendar",
+    url: "/showDoctorAppointments",
     data: data,
     dataType: "json",
     encode: true,
     success: function(result){
-      $('div#doctorCalendar').html(result.calendar);
+      $('tbody#tt').html(result.appointment);
     },
     error:function(result){
         
@@ -200,6 +206,71 @@ function showAppointment() {
       }
   });   
 }
+
+function checkStatus(e){
+  var data ={};
+  e = e || window.event;
+  var target = e.target.closest('div');
+  var appID = target.getAttribute('idd');
+  data.Id = appID;
+  $.ajax({
+    type: "GET",
+    url: "/checkStatus",
+    data: data,
+    dataType: "json",
+    encode: true,
+    success: function(result){
+        $('[name="appointment'+appID+ '"] .statusColor').addClass('bg-success');
+          
+
+    },
+    error:function(result){
+    }    
+});   
+}
+
+function cancelStatus(e){
+  var data ={};
+  e = e || window.event;
+  var target = e.target.closest('div');
+  var appID = target.getAttribute('idd');
+  data.Id = appID;
+  $.ajax({
+    type: "GET",
+    url: "/cancelStatus",
+    data: data,
+    dataType: "json",
+    encode: true,
+    success: function(result){
+      $('[name="appointment'+appID+ '"] .statusColor').addClass('bg-danger'); 
+
+    },
+    error:function(result){
+      
+    }
+});  
+}
+
+function getCitys(){
+  var data ={};
+  var countryID = $('#country-selector').val();
+  data.countryID = countryID;
+  $.ajax({
+    type: "GET",
+    url: "/getCitys",
+    data: data,
+    dataType: "json",
+    encode: true,
+    success: function(result){
+      $('[name="appointment'+appID+ '"] .statusColor').addClass('bg-danger'); 
+
+    },
+    error:function(result){
+      
+    }
+});  
+}
+
 
 $(document).on('keypress', '#fileID', function(e){
   if (e.which == 13) {
@@ -258,7 +329,8 @@ $(document).on('change','#stTime',function(){
   } else {
       $('#save').prop('disabled', true);
       $('#save').addClass('btn-secondary');
-  }
+  } 
+  showDoctorAppointments();
 });
 
 $(document).on('change','#eTime',function(){
@@ -292,29 +364,14 @@ $(document).on('change','#eTime',function(){
 });
 
 $(document).on('change','#doctor-selector',function(){
-var d = $('#doctor-selector').val();
-var t = $('#stTime').val();
-if( d === "" || t === ""){
-  $('#appo').prop('disabled', true);
-  $('#appo').addClass('btn-secondary');
-}
-else 
-{ 
-  $('#appo').prop('disabled', false);
-  $('#appo').removeClass('btn-secondary');
-}
+  showDoctorAppointments();
 });
 
-$(document).on('change','#stTime',function(){
-  var d = $('#doctor-selector').val();
-  var t = $('#stTime').val();
-  if( d === "" || t === ""){
-    $('#appo').prop('disabled', true);
-    $('#appo').addClass('btn-secondary');
-  }
-  else 
-  { 
-    $('#appo').prop('disabled', false);
-    $('#appo').removeClass('btn-secondary');
-  }
-  });
+$(document).on('change','#country-selector',function(){
+  getCitys();
+  popUpSearch();
+});
+
+$(document).on('change','#city-selector',function(){
+  popUpSearch();
+});

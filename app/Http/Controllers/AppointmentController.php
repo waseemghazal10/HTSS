@@ -13,7 +13,6 @@ class AppointmentController extends Controller
 {
     public function getAppointments(Request $request)
     {   
-        error_log('hi');
         $user = auth()->user();
         $doctors = Doctor::where('Status',1)->where('ClinicIDKey', $user->ClinicIDKey)->get(['IDKey','Name']);
         $doctorId = $request->query('doctorId', '');
@@ -35,7 +34,7 @@ class AppointmentController extends Controller
     {
         $user = auth()->user();
         $countrys =  LookUps :: where ('type',1000) -> where('ClinicIDKey', $user->ClinicIDKey) ->get();
-        $citys =  LookUps :: where ('type',1001) -> where('ClinicIDKey', $user->ClinicIDKey) ->get();
+        $citys =  LookUps :: where ('type',1001) -> where('ClinicIDKey', $user->ClinicIDKey) ->where('FatherIDKey',$user->CountryIDKey) ->get();
         $doctors = Doctor::where('Status',1)->where('ClinicIDKey', $user->ClinicIDKey)->get(['IDKey','Name']);
         foreach ($doctors as $doctor){
             if($doctor -> IDKey == $user -> IDKey)
@@ -51,7 +50,6 @@ class AppointmentController extends Controller
             if($city -> IDKey == $user -> CityIDKey)
             $city -> selected = true;
         }
-
         return response(['page' => view('addAppointment',['doctors' => $doctors , 'countrys' => $countrys, 'citys' => $citys])->render()], 201);
     }
 
@@ -137,12 +135,19 @@ class AppointmentController extends Controller
         $doctors = Doctor::where('Status',1)->where('ClinicIDKey', $user->ClinicIDKey)->get(['IDKey','Name']);
         $idNum = $request->query('idNum', '');
         $patName = $request->query('patName', '');
+        $countryId = $request->query('countryId', '');
+        $cityId = $request->query('cityId', '');
         $tools = $request->query('tools', '');
         $country = Clinic :: where ('IDKey',$user->ClinicIDKey)->first();
-        // error_log($country->CountryIDKey);
         if($idNum){
-            $patientArray = Patient::where('IDNum',$idNum)->get();
+            if($countryId && $cityId)
+                $patientArray = Patient::where('IDNum',$idNum)->where ('CountryIDKey',$countryId)->where ('CityIDKey',$cityId)->get();
             // error_log($patientID);
+            else if($countryId && !$cityId){
+                $patientArray = Patient::where('IDNum',$idNum)->where ('CountryIDKey',$countryId)->get();
+            }
+            else 
+                $patientArray = Patient::where('IDNum',$idNum)->get();
             if($patientArray -> count() > 0)
             {
                 $lookUpCity = LookUps :: where ('IDKey',$patientArray ->first() -> CityIDKey)->where ('type',1001)->first();
@@ -192,14 +197,14 @@ class AppointmentController extends Controller
                 return response(['row' => view('templates.row',['patients' => $patients])->render()], 201);
             }
             else{
-                $pattern = "/^5\d{8}$/";
+                $pattern = "/^(05|5)\d{8}$/";
                 $checkTool = preg_match($pattern, $tools);
                 if($checkTool == 1){
                     $patients = Patient :: where ('Mobile',$tools)->get();
                     return response(['row' => view('templates.row',['patients' => $patients])->render()], 201);
                 }
                 else{
-                    $pattern = "/^\d{7}$/";
+                    $pattern = "/^2\d{6}$/";
                     $checkTool = preg_match($pattern, $tools);
                     if($checkTool == 1){
                         $patients = Patient :: where ('Mobile',$tools)->get();
@@ -240,11 +245,39 @@ class AppointmentController extends Controller
         return response([], 201);
     }
 
-    public function showcalendar(Request $request){ 
+    public function showDoctorAppointments(Request $request){ 
         $doctorID = $request->query('doctorId', '');
+        error_log($doctorID );
         $date = $request->query('date', '');
-        $appointments = Appointment :: where ('ForDocterIDKey' , $doctorID) -> where ('Date' , $date) -> get();
-        return response(['calendar' => view('templates.calendar',['appointments' => $appointments])->render()], 201);
+        error_log($date );
+        if($doctorID && $date){
+            $appointments = Appointment::where('ForDocterIDKey',$doctorID)->where('Date',$date)->get();
+            return response (['appointment' => view('templates.doctorAppointments',['appointments' => $appointments])->render()], 201);
+        }
+        else if (!$doctorID && $date){
+            $appointments = Appointment::where('Date',$date)->get();
+            return response (['appointment' => view('templates.doctorAppointments',['appointments' => $appointments])->render()], 201);
+        }
+        else{
+            return response ([], 201);
+        }
+    }
+
+    public function checkStatus(Request $request){ 
+        $ID = $request->query('Id', '');
+        $appointment = Appointment :: where('IDKey',$ID)->first();
+        $appointment -> Status = 2;
+        $appointment -> save();
+        return response([],201);
+    }
+
+    public function cancelStatus(Request $request){ 
+        $ID = $request->query('Id', '');
+        $appointment = Appointment :: where('IDKey',$ID)->first();
+        $appointment -> Status = 3;
+        $appointment -> save();
+        return response([],201);
+        
     }
 
 }

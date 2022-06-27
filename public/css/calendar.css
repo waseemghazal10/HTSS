@@ -151,3 +151,12 @@
     font-size: 12px;
     display: flex;
   }
+  
+  #check{
+    cursor: pointer;
+  }
+
+  #ban{
+    cursor: pointer;
+  }
+

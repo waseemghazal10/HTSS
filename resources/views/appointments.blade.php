@@ -45,8 +45,7 @@
                         <th>Doctor</th>
                         <th>Subject</th>
                         <th>Time</th>
-                        <th>Last Visit Date</th>
-                        <th>Visit Number</th>
+                        <th>Last Visit</th>
                         <th>Done</th>
                         <th>Cancel</th>
                         <th>Show</th>
@@ -58,8 +57,7 @@
                         <th>Doctor</th>
                         <th>Subject</th>
                         <th>Time</th>
-                        <th>Last Visit Date</th>
-                        <th>Visit Number</th>
+                        <th>Last Visit</th>
                         <th>Done</th>
                         <th>Cancel</th>
                         <th>Show</th>
@@ -73,8 +71,7 @@
                         <td>{{$appointment->doctor->Name}}</td>
                         <td>{{$appointment->Subject}}</td>
                         <td>{{date("H:i",strtotime($appointment->Time))}} <br> {{date("H:i",strtotime($appointment->EndTime_Expected))}}</td>
-                        <td>{{date("d-m-Y",strtotime($appointment->patient->UpDateDate))}}</td>
-                        <td>{{$appointment->patient->VistCount}}</td>
+                        <td>{{$appointment->patient->VistCount}} | {{date("d-m-Y",strtotime($appointment->patient->UpDateDate))}}</td>
                         <td >
                             <div class="d-flex justify-content-center align-items-center">
                                 <button id="done"  name="done" appID= "{{$appointment->IDKey}}" class= "btn btn-success" onclick="doneStatus(event)">Done</button>
@@ -206,17 +203,25 @@
                     <div class="dayview-gridcell">
                         @foreach ($appointments as $appointment)
                         @if (intval(date('H',strtotime($appointment->Time))) >= 8 &&  intval(date('H',strtotime($appointment->Time))) <= 20)
-                        <div class="dayview-cell" style="grid-row: {{intval(1 + ((date('H',strtotime($appointment->Time))) * 4) + ((date('i',strtotime($appointment->Time))) / 15)) - 32}}  / {{intval(1 + ((date('H',strtotime($appointment->EndTime_Expected))) * 4) + ((date('i',strtotime($appointment->EndTime_Expected))) / 15)) - 32}} ;">
+                        <div class="dayview-cell" name ="appointment{{$appointment->IDKey}}" style="grid-row: {{intval(1 + ((date('H',strtotime($appointment->Time))) * 4) + ((date('i',strtotime($appointment->Time))) / 15)) - 32}}  / {{intval(1 + ((date('H',strtotime($appointment->EndTime_Expected))) * 4) + ((date('i',strtotime($appointment->EndTime_Expected))) / 15)) - 32}} ;">
                             @if(intval($appointment->Status) === 2)
-                                <div class="color d-flex mr-1 p-1 bg-success" ></div>
+                                <div class="color d-flex mr-1 p-1 bg-success statusColor"></div>
                             @elseif(intval($appointment->Status) === 3)
-                                <div class="color d-flex mr-1 p-1 bg-danger" ></div>
+                                <div class="color d-flex mr-1 p-1 bg-danger statusColor"></div>
                             @elseif(intval($appointment->Status) === 1)
-                                <div class="color d-flex mr-1 p-1 bg-primary" ></div>
+                                <div class="color d-flex mr-1 p-1 bg-primary statusColor"></div>
                             @endif
                             <div class="dayview-cell-title">{{$appointment->doctor->Name}}</div>
                             <div class="dayview-cell-title">{{$appointment->Subject}}</div>
                             <div class="dayview-cell-time">{{date("H:i",strtotime($appointment->Time))}}-{{date("H:i",strtotime($appointment->EndTime_Expected))}}</div>
+                            <div class="ml-auto">
+                                <div class="color  mr-1 p-2 bg-success mt-2" id = "check"  idd = "{{$appointment->IDKey}}" onclick ="checkStatus(event)">
+                                    <i class="fa fa-check"></i>
+                                </div>
+                                <div class="color  mr-1 p-2 bg-danger mt-2" id ="ban" idd = "{{$appointment->IDKey}}" onclick ="cancelStatus(event)">
+                                <i class="fa fa-ban"></i>
+                                </div>
+                            </div> 
                         </div>
                         @endif
                         @endforeach

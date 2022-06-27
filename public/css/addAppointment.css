@@ -1,24 +1,52 @@
 .errorMsg{
-    color: red;
-  }
+  color: red;
+}
   
-  .active{
-    background-color: #4e73df;
-    color: white;
-    
-  }
-  #tbody tr{
-    cursor: pointer;
-  }
+.active{
+  background-color: #4e73df;
+  color: white;
 
-  .scroll{
-    height:500PX;
-    overflow-y:scroll;
+}
+#tbody tr{
+  cursor: pointer;
+}
 
-  }
+.scroll{
+  height:500px;
+  overflow-y:scroll;
 
-  .btn-black {
-    color: #fff;
-    background-color: #000000;
-    border-color: #000000;
+} 
+
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+  border-radius: 20px;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}
+
+.btn-black {
+  color: #fff;
+  background-color: #000000;
+  border-color: #000000;
+}
+
+.tableRadious{
+  border-radius: 15px;
 }

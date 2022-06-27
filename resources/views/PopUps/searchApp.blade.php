@@ -30,7 +30,7 @@
                         <div class="col-3">
                             <label class="text-white">Country</label>
                             <select class="form-control mr-1" name="country-selector" id="country-selector">
-                                <option value="country">Not Set - Countries</option>
+                                <option>Not Set - Countries</option>
                                 @foreach ($countrys as $country)
                                         @if($country -> selected)
                                         <option selected value="{{$country->IDKey}}">{{$country->AName}}</option>
@@ -42,12 +42,12 @@
                         </div>
                     </div>
                 </div>
-
+                
                 <div class="row w-100 align-items-center justify-content-center mb-3">
                     <div class="w-100 d-flex">
                         <div class="col-3">
                             <select class="form-control mr-1" name="city-selector" id="city-selector">
-                                <option value="city">Not Set - citys</option>
+                                <option>Not Set - citys</option>
                                 @foreach ($citys as $city)
                                         @if($city -> selected)
                                         <option selected value="{{$city->IDKey}}">{{$city->AName}}</option>
